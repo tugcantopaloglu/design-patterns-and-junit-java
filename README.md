@@ -52,3 +52,29 @@ To support multiple file types for input (beyond just `.txt` files), we used the
 ## 4. Unit Testing
 
 To test the project, we implemented a JUnit test in the `Deneme` class where the `main` method resides. The test focused on validating input from the user against the data read from the file. If the user input does not match expected values, the test fails, otherwise it passes.
+
+## Build and run the committed source
+
+This is a NetBeans/Ant Java project with `src/`, `test/`, `build.xml`, and the fixture `girdi.txt`. The classes use the default Java package. A plain JDK is sufficient to compile the application from the repository root:
+
+```sh
+javac -encoding UTF-8 -d out src/*.java
+java -cp out Deneme
+```
+
+Run in an interactive terminal. The application reads `girdi.txt` from the working directory, waits for an initial Enter key, then asks for a complete employee name. The current code creates a new scanner for each prompt, so redirected multi-line standard input can be consumed unexpectedly; use the interactive terminal for the sample flow.
+
+The TXT reader is implemented. `ExcelReader` and `XMLReader` are extension placeholders whose read/write methods throw `UnsupportedOperationException`; they do not parse those file formats yet.
+
+## Run the existing JUnit test
+
+The committed test uses JUnit 4. With JUnit 4.13.2 and Hamcrest Core 1.3 on the classpath:
+
+```sh
+javac -encoding UTF-8 -cp "out:lib/junit-4.13.2.jar:lib/hamcrest-core-1.3.jar" -d out test/DenemeTest.java
+java -cp "out:lib/junit-4.13.2.jar:lib/hamcrest-core-1.3.jar" org.junit.runner.JUnitCore DenemeTest
+```
+
+Place the two dependency JARs under `lib/` before these commands. On Windows, use semicolons instead of colons between classpath entries. NetBeans can also supply the JUnit libraries for its existing Ant test target.
+
+All application sources compiled with JDK 17 and the single committed JUnit test passed. That test verifies user-input retrieval; it does not establish salary aggregation, hierarchy traversal, iterator behavior, or unsupported reader correctness.
